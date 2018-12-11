@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class Main {
@@ -11,27 +9,25 @@ public class Main {
 
     public static void main(String[] args) {
 
-//[1518-05-12 00:46] wakes up
-//        [1518-07-16 00:00] Guard #3209 begins shift
-//        [1518-06-13 00:02] falls asleep
-
-
 
         String line;
-        ArrayList<Patrol> guardOrder = new ArrayList<>();
+        ArrayList<Patrol> patrols = new ArrayList<>();
 
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
                 while ((line = reader.readLine()) != null) {
                     String date = line.substring(line.indexOf('-')+1, line.indexOf(' '));
+                    String month = date.substring(0, date.indexOf("-"));
+                    String day = date.substring(date.indexOf("-")+1);
                     String hour = line.substring(line.indexOf(' ')+1, line.indexOf(':'));
                     String minute = line.substring(line.indexOf(':')+1, line.indexOf(']'));
                     String message = line.substring(line.indexOf(']')+1).trim();
-                    Patrol patrol = new Patrol(date, hour, minute, message);
+                    Patrol patrol = new Patrol(month, day, hour, minute, message);
+                    patrols.add(patrol);
                 }
 
                 reader.close();
-                sortGuardOrder(guardOrder);
+                //patrols = sortGuardOrder(patrols);
 
             } catch (Exception e) {
                 System.err.format("Exception occurred trying to read '%s'.", FILENAME);
@@ -39,9 +35,22 @@ public class Main {
             }
         }
 
-        public static ArrayList<Patrol> sortGuardOrder(ArrayList<Patrol> guards) {
-
-            return new ArrayList<Patrol>();
+        public static ArrayList<Patrol> sortGuardOrder(ArrayList<Patrol> patrols) {
+            boolean didSwapOccur = true;
+            while(didSwapOccur) {
+                didSwapOccur = false;
+                for (int i = 0; i < patrols.size() - 1; i++) {
+                    Patrol first = patrols.get(i);
+                    Patrol second = patrols.get(i+1);
+                    if (Integer.parseInt(first.getMonth()) > Integer.parseInt(second.getMonth())) {
+                        Patrol swappedPatrol = first;
+                        patrols.set(i, second);
+                        patrols.set(i+1,swappedPatrol);
+                        didSwapOccur = true;
+                    }
+                }
+               }
+            return patrols;
         }
 
     }
