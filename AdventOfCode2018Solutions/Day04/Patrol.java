@@ -31,4 +31,6 @@ public class Patrol {
     public int getHour() {
         return Integer.parseInt(hour);
     }
+
+    public String getMessage() { return message; }
 }

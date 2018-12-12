@@ -12,6 +12,7 @@ public class Main {
 
         String line;
         ArrayList<Patrol> patrols = new ArrayList<>();
+        ArrayList<Guard> guards = new ArrayList<>();
 
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
@@ -28,6 +29,17 @@ public class Main {
 
                 reader.close();
                 patrols = sortGuardOrder(patrols);
+
+                for (int i = 0; i < patrols.size(); i++) {
+                    Patrol currentPatrol = patrols.get(i);
+                    String patrolMessage = currentPatrol.getMessage();
+                    if (patrolMessage.contains("#")) {
+                        String guardId = patrolMessage.substring(patrolMessage.indexOf("#")+1, patrolMessage.indexOf("b")).trim();
+                        Guard guard = new Guard(Integer.parseInt(guardId),
+                                                String.valueOf(currentPatrol.getHour()) + ":" + String.valueOf(currentPatrol.getMinutes()));
+                        guards.add(guard);
+                    }
+                }
 
             } catch (Exception e) {
                 System.err.format("Exception occurred trying to read '%s'.", FILENAME);
