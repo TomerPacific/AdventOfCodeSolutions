@@ -27,7 +27,7 @@ public class Main {
                 }
 
                 reader.close();
-                //patrols = sortGuardOrder(patrols);
+                patrols = sortGuardOrder(patrols);
 
             } catch (Exception e) {
                 System.err.format("Exception occurred trying to read '%s'.", FILENAME);
@@ -42,7 +42,21 @@ public class Main {
                 for (int i = 0; i < patrols.size() - 1; i++) {
                     Patrol first = patrols.get(i);
                     Patrol second = patrols.get(i+1);
-                    if (Integer.parseInt(first.getMonth()) > Integer.parseInt(second.getMonth())) {
+
+                    int firstMonth = Integer.parseInt(first.getMonth());
+                    int secondMonth = Integer.parseInt(second.getMonth());
+                    int firstDay = Integer.parseInt(first.getDay());
+                    int secondDay = Integer.parseInt(second.getDay());
+
+                    int firstHour =  first.getHour();
+                    int secondHour = second.getHour();
+                    int firstMinutes = first.getMinutes();
+                    int secondMinutes = second.getMinutes();
+
+                    if      (firstMonth > secondMonth ||
+                            (firstMonth == secondMonth && firstDay > secondDay) ||
+                            (firstMonth == secondMonth && firstDay == secondDay && firstHour > secondHour) ||
+                            (firstMonth == secondMonth && firstDay == secondDay && firstHour == secondHour && firstMinutes > secondMinutes)) {
                         Patrol swappedPatrol = first;
                         patrols.set(i, second);
                         patrols.set(i+1,swappedPatrol);
