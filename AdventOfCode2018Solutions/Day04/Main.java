@@ -29,15 +29,29 @@ public class Main {
 
                 reader.close();
                 patrols = sortGuardOrder(patrols);
+                Guard currentGuardOnPatrol = null;
 
                 for (int i = 0; i < patrols.size(); i++) {
                     Patrol currentPatrol = patrols.get(i);
                     String patrolMessage = currentPatrol.getMessage();
                     if (patrolMessage.contains("#")) {
                         String guardId = patrolMessage.substring(patrolMessage.indexOf("#")+1, patrolMessage.indexOf("b")).trim();
-                        Guard guard = new Guard(Integer.parseInt(guardId),
-                                                String.valueOf(currentPatrol.getHour()) + ":" + String.valueOf(currentPatrol.getMinutes()));
-                        guards.add(guard);
+
+                       int indexOfGuard = getGuardIndex(guards, Integer.parseInt(guardId));
+
+                       if (indexOfGuard != -1) {
+                           currentGuardOnPatrol = guards.get(indexOfGuard);
+                       } else {
+                           currentGuardOnPatrol = new Guard(Integer.parseInt(guardId),
+                                   String.valueOf(currentPatrol.getHour()) + ":" + String.valueOf(currentPatrol.getMinutes()));
+
+                           guards.add(currentGuardOnPatrol);
+                       }
+
+                    } else if (patrolMessage.contains("falls")) {
+                        currentGuardOnPatrol.wentToSleep(String.valueOf(currentPatrol.getHour()) + ":" + String.valueOf(currentPatrol.getMinutes()));
+                    } else if (patrolMessage.contains("wakes")) {
+                        currentGuardOnPatrol.wokeUp(String.valueOf(currentPatrol.getHour()) + ":" + String.valueOf(currentPatrol.getMinutes()));
                     }
                 }
 
@@ -45,6 +59,17 @@ public class Main {
                 System.err.format("Exception occurred trying to read '%s'.", FILENAME);
                 e.printStackTrace();
             }
+        }
+
+        public static int getGuardIndex(ArrayList<Guard> guards, int guardIdToSearch) {
+
+            for (int i = 0; i < guards.size(); i++) {
+                if ( guards.get(i).getGuardID() == guardIdToSearch) {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         public static ArrayList<Patrol> sortGuardOrder(ArrayList<Patrol> patrols) {
