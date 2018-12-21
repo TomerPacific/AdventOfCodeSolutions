@@ -1,13 +1,17 @@
 public class Operation {
 
     private String[] beforeState;
-    private String[] operation;
+    private RegisterOperation operation;
     private String[] afterState;
 
-    public Operation(String[] before, String[] op, String[] after) {
+    public Operation(String[] before, RegisterOperation op, String[] after) {
         beforeState = before;
         operation = op;
         afterState = after;
+    }
+
+    public String[] getBeforeState() {
+        return beforeState;
     }
 
 }

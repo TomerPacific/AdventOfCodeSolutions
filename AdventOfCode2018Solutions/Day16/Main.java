@@ -16,6 +16,7 @@ public class Main {
         String[] afterState = null;
         boolean isBeforeLine = false;
         boolean isAfterLine = false;
+        RegisterOperation registerOperation = null;
 
         ArrayList<Operation> operations = new ArrayList<>();
 
@@ -26,26 +27,30 @@ public class Main {
                     isAfterLine =  line.contains("After");
                     if (!isBeforeLine && !isAfterLine) {
                         operationString = line.split(" ");
+                        registerOperation = new RegisterOperation(Integer.parseInt(operationString[0]),
+                                                                  Integer.parseInt(operationString[1]),
+                                                                  Integer.parseInt(operationString[2]),
+                                                                  Integer.parseInt(operationString[3]));
                     } else {
                         String arr = line.substring(line.indexOf("[") + 1, line.length() - 1).trim();
                         if (isBeforeLine) {
                             beforeState = arr.split("\\s*,\\s*");
                         } else {
                             afterState =  arr.split("\\s*,\\s*");
-                            Operation op = new Operation(beforeState, operationString, afterState);
+                            Operation op = new Operation(beforeState, registerOperation, afterState);
                             operations.add(op);
+                            isBeforeLine = false;
+                            isAfterLine = false;
                         }
 
                     }
-
                 }
-
                 reader.close();
-
-
             } catch (Exception e) {
                 System.err.format("Exception occurred trying to read '%s'.", FILENAME);
                 e.printStackTrace();
             }
-        }
+
+
+           }
     }
