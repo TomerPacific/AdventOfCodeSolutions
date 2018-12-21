@@ -51,6 +51,45 @@ public class Main {
                 e.printStackTrace();
             }
 
+                findOperations(operations);
+           }
 
+
+           private static void findOperations(ArrayList<Operation> operations) {
+
+                int countBehavesLikeThree = 0;
+                for (int i = 0; i < operations.size(); i++) {
+                    Operation op = operations.get(i);
+                    if (behavesLikeThree(op)) {
+                        countBehavesLikeThree++;
+                    }
+                }
+           }
+
+           private static boolean behavesLikeThree(Operation op) {
+                int result = 0;
+                if (isAddition(op)) {
+                    result++;
+                }
+                if (isMultiplication(op)) {
+                    result++;
+                }
+                if (isAnd(op)) {
+                    result++;
+                }
+                if (isOr(op)) {
+                    result++;
+                }
+                if (isAssignment(op)) {
+                    result++;
+                }
+                if (isGreaterThan(op)) {
+                    result++;
+                }
+                if (isEqual(op)) {
+                    result++;
+                }
+
+                return (result >= 3);
            }
     }
