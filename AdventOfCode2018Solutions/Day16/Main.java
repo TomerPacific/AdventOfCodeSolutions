@@ -12,8 +12,8 @@ public class Main {
 
         String line;
         String[] operationString = null;
-        String[] beforeState = null;
-        String[] afterState = null;
+        int[] beforeState = null;
+        int[] afterState = null;
         boolean isBeforeLine = false;
         boolean isAfterLine = false;
         RegisterOperation registerOperation = null;
@@ -34,9 +34,10 @@ public class Main {
                     } else {
                         String arr = line.substring(line.indexOf("[") + 1, line.length() - 1).trim();
                         if (isBeforeLine) {
-                            beforeState = arr.split("\\s*,\\s*");
+                            beforeState = convertElementsToInt(arr.split("\\s*,\\s*"));
+
                         } else {
-                            afterState =  arr.split("\\s*,\\s*");
+                            afterState =  convertElementsToInt(arr.split("\\s*,\\s*"));
                             Operation op = new Operation(beforeState, registerOperation, afterState);
                             operations.add(op);
                             isBeforeLine = false;
@@ -71,25 +72,56 @@ public class Main {
                 if (isAddition(op)) {
                     result++;
                 }
-                if (isMultiplication(op)) {
-                    result++;
-                }
-                if (isAnd(op)) {
-                    result++;
-                }
-                if (isOr(op)) {
-                    result++;
-                }
-                if (isAssignment(op)) {
-                    result++;
-                }
-                if (isGreaterThan(op)) {
-                    result++;
-                }
-                if (isEqual(op)) {
-                    result++;
-                }
+//                if (isMultiplication(op)) {
+//                    result++;
+//                }
+//                if (isAnd(op)) {
+//                    result++;
+//                }
+//                if (isOr(op)) {
+//                    result++;
+//                }
+//                if (isAssignment(op)) {
+//                    result++;
+//                }
+//                if (isGreaterThan(op)) {
+//                    result++;
+//                }
+//                if (isEqual(op)) {
+//                    result++;
+//                }
 
                 return (result >= 3);
+           }
+
+           private static boolean isAddition(Operation op) {
+                int[] registersStateBefore = op.getBeforeState();
+                RegisterOperation registerOperation = op.getRegisterOperation();
+                int[] registersStateAfter = op.getAfterState();
+
+                int sourceRegister = registerOperation.getSourceRegister();
+                int secondSourceRegister = registerOperation.getSecondSourceRegister();
+                int resultRegister = registerOperation.getResultRegister();
+
+                //addi
+               if (registersStateBefore[sourceRegister] + secondSourceRegister
+                       == registersStateAfter[resultRegister]) {
+                    return true;
+               }
+               // addr
+               else if (registersStateBefore[sourceRegister] + registersStateBefore[secondSourceRegister]
+                       == registersStateAfter[resultRegister]) {
+                    return true;
+               }
+
+               return false;
+           }
+
+           private static int[] convertElementsToInt(String[] arr) {
+                int[] intArr = new int[arr.length];
+                for(int i = 0; i < arr.length; i++) {
+                    intArr[i] = Integer.parseInt(arr[i]);
+                }
+                return intArr;
            }
     }

@@ -12,4 +12,18 @@ public class RegisterOperation {
         resultRegister = result;
     }
 
+    public int getSourceRegister() {
+        return sourceRegister;
+    }
+
+    public int getSecondSourceRegister() {
+        return secondSourceRegister;
+    }
+
+    public int getResultRegister() {
+        return resultRegister;
+    }
+
+
+
 }
