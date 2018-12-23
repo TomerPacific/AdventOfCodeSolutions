@@ -72,9 +72,9 @@ public class Main {
                 if (isAddition(op)) {
                     result++;
                 }
-//                if (isMultiplication(op)) {
-//                    result++;
-//                }
+                if (isMultiplication(op)) {
+                    result++;
+                }
 //                if (isAnd(op)) {
 //                    result++;
 //                }
@@ -116,6 +116,29 @@ public class Main {
 
                return false;
            }
+
+        private static boolean isMultiplication(Operation op) {
+            int[] registersStateBefore = op.getBeforeState();
+            RegisterOperation registerOperation = op.getRegisterOperation();
+            int[] registersStateAfter = op.getAfterState();
+
+            int sourceRegister = registerOperation.getSourceRegister();
+            int secondSourceRegister = registerOperation.getSecondSourceRegister();
+            int resultRegister = registerOperation.getResultRegister();
+
+            //muli
+            if (registersStateBefore[sourceRegister] * secondSourceRegister
+                    == registersStateAfter[resultRegister]) {
+                return true;
+            }
+            // mulr
+            else if (registersStateBefore[sourceRegister] * registersStateBefore[secondSourceRegister]
+                    == registersStateAfter[resultRegister]) {
+                return true;
+            }
+
+            return false;
+        }
 
            private static int[] convertElementsToInt(String[] arr) {
                 int[] intArr = new int[arr.length];
