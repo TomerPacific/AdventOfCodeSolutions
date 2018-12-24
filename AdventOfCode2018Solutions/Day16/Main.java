@@ -23,6 +23,10 @@ public class Main {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
                 while ((line = reader.readLine()) != null) {
+
+                    if (line.isEmpty()) {
+                        continue;
+                    }
                     isBeforeLine = line.contains("Before");
                     isAfterLine =  line.contains("After");
                     if (!isBeforeLine && !isAfterLine) {
@@ -78,9 +82,9 @@ public class Main {
                 if (isAnd(op)) {
                     result++;
                 }
-//                if (isOr(op)) {
-//                    result++;
-//                }
+                if (isOr(op)) {
+                    result++;
+                }
 //                if (isAssignment(op)) {
 //                    result++;
 //                }
@@ -149,12 +153,12 @@ public class Main {
             int secondSourceRegister = registerOperation.getSecondSourceRegister();
             int resultRegister = registerOperation.getResultRegister();
 
-            //bani
+            //bori
             int result = registersStateBefore[sourceRegister] & secondSourceRegister;
             if (result == registersStateAfter[resultRegister]) {
                 return true;
             }
-            // banr
+            // borr
             result = registersStateBefore[sourceRegister] & registersStateBefore[secondSourceRegister];
             if (result == registersStateAfter[resultRegister]) {
                 return true;
@@ -164,11 +168,35 @@ public class Main {
             return false;
         }
 
-           private static int[] convertElementsToInt(String[] arr) {
-                int[] intArr = new int[arr.length];
-                for(int i = 0; i < arr.length; i++) {
-                    intArr[i] = Integer.parseInt(arr[i]);
-                }
-                return intArr;
-           }
+        private static boolean isOr(Operation op) {
+            int[] registersStateBefore = op.getBeforeState();
+            RegisterOperation registerOperation = op.getRegisterOperation();
+            int[] registersStateAfter = op.getAfterState();
+
+            int sourceRegister = registerOperation.getSourceRegister();
+            int secondSourceRegister = registerOperation.getSecondSourceRegister();
+            int resultRegister = registerOperation.getResultRegister();
+
+            //bani
+            int result = registersStateBefore[sourceRegister] | secondSourceRegister;
+            if (result == registersStateAfter[resultRegister]) {
+                return true;
+            }
+            // banr
+            result = registersStateBefore[sourceRegister] | registersStateBefore[secondSourceRegister];
+            if (result == registersStateAfter[resultRegister]) {
+                return true;
+            }
+
+
+            return false;
+        }
+
+       private static int[] convertElementsToInt(String[] arr) {
+            int[] intArr = new int[arr.length];
+            for(int i = 0; i < arr.length; i++) {
+                intArr[i] = Integer.parseInt(arr[i]);
+            }
+            return intArr;
+       }
     }
