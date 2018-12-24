@@ -75,9 +75,9 @@ public class Main {
                 if (isMultiplication(op)) {
                     result++;
                 }
-//                if (isAnd(op)) {
-//                    result++;
-//                }
+                if (isAnd(op)) {
+                    result++;
+                }
 //                if (isOr(op)) {
 //                    result++;
 //                }
@@ -136,6 +136,30 @@ public class Main {
                     == registersStateAfter[resultRegister]) {
                 return true;
             }
+
+            return false;
+        }
+
+        private static boolean isAnd(Operation op) {
+            int[] registersStateBefore = op.getBeforeState();
+            RegisterOperation registerOperation = op.getRegisterOperation();
+            int[] registersStateAfter = op.getAfterState();
+
+            int sourceRegister = registerOperation.getSourceRegister();
+            int secondSourceRegister = registerOperation.getSecondSourceRegister();
+            int resultRegister = registerOperation.getResultRegister();
+
+            //bani
+            int result = registersStateBefore[sourceRegister] & secondSourceRegister;
+            if (result == registersStateAfter[resultRegister]) {
+                return true;
+            }
+            // banr
+            result = registersStateBefore[sourceRegister] & registersStateBefore[secondSourceRegister];
+            if (result == registersStateAfter[resultRegister]) {
+                return true;
+            }
+
 
             return false;
         }
