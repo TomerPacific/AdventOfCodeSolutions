@@ -85,9 +85,9 @@ public class Main {
                 if (isOr(op)) {
                     result++;
                 }
-//                if (isAssignment(op)) {
-//                    result++;
-//                }
+                if (isAssignment(op)) {
+                    result++;
+                }
 //                if (isGreaterThan(op)) {
 //                    result++;
 //                }
@@ -189,6 +189,26 @@ public class Main {
             }
 
 
+            return false;
+        }
+
+        private static boolean isAssignment(Operation op) {
+            int[] registersStateBefore = op.getBeforeState();
+            RegisterOperation registerOperation = op.getRegisterOperation();
+            int[] registersStateAfter = op.getAfterState();
+
+            int sourceRegister = registerOperation.getSourceRegister();
+            int secondSourceRegister = registerOperation.getSecondSourceRegister();
+            int resultRegister = registerOperation.getResultRegister();
+
+            //seti
+            if (registersStateAfter[resultRegister] == sourceRegister) {
+                return true;
+            }
+            //setr
+            if (registersStateBefore[sourceRegister] == registersStateAfter[resultRegister]) {
+                return true;
+            }
             return false;
         }
 
