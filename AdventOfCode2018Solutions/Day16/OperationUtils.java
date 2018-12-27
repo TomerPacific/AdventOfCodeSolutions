@@ -129,5 +129,33 @@ public class OperationUtils {
         return false;
     }
 
+    public boolean isEqual(int[] registersStateBefore,
+                                 int[] registersStateAfter,
+                                 int sourceRegister,
+                                 int secondSourceRegister,
+                                 int resultRegister) {
+
+        //eqir
+        if ((registersStateAfter[resultRegister] == 1 && sourceRegister == registersStateBefore[secondSourceRegister]) ||
+                (registersStateAfter[resultRegister] == 0 && sourceRegister != registersStateBefore[secondSourceRegister])){
+            return true;
+        }
+
+        //eqri
+        if ((registersStateAfter[resultRegister] == 1 && registersStateBefore[sourceRegister] == secondSourceRegister) ||
+                (registersStateAfter[resultRegister] == 0 && registersStateBefore[sourceRegister] != secondSourceRegister)){
+            return true;
+        }
+
+        //eqrr
+        if ((registersStateAfter[resultRegister] == 1 && registersStateBefore[sourceRegister] == registersStateBefore[secondSourceRegister]) ||
+                (registersStateAfter[resultRegister] == 0 && registersStateBefore[sourceRegister] != registersStateBefore[secondSourceRegister])){
+            return true;
+        }
+
+
+        return false;
+    }
+
 
 }

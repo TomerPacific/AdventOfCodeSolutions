@@ -110,9 +110,9 @@ public class Main {
                 if (operationUtils.isGreaterThan(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
                     result++;
                 }
-//                if (isEqual(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
-//                    result++;
-//                }
+                if (operationUtils.isEqual(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
+                    result++;
+                }
 
                 return (result >= 3);
            }
