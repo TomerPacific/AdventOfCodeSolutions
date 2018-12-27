@@ -4,157 +4,169 @@ public class OperationUtils {
 
     }
 
-    public boolean isAddition(int[] registersStateBefore,
+    public int isAddition(int[] registersStateBefore,
                                       int[] registersStateAfter,
                                       int sourceRegister,
                                       int secondSourceRegister,
                                       int resultRegister) {
 
+        int matches = 0;
+
         //addi
         if (registersStateBefore[sourceRegister] + secondSourceRegister
                 == registersStateAfter[resultRegister]) {
-            return true;
+            matches++;
         }
         // addr
         else if (registersStateBefore[sourceRegister] + registersStateBefore[secondSourceRegister]
                 == registersStateAfter[resultRegister]) {
-            return true;
+            matches++;
         }
 
-        return false;
+        return matches;
     }
 
-    public boolean isMultiplication(int[] registersStateBefore,
+    public int isMultiplication(int[] registersStateBefore,
                                             int[] registersStateAfter,
                                             int sourceRegister,
                                             int secondSourceRegister,
                                             int resultRegister) {
 
+        int matches = 0;
+
         //muli
         if (registersStateBefore[sourceRegister] * secondSourceRegister
                 == registersStateAfter[resultRegister]) {
-            return true;
+            matches++;
         }
         // mulr
         else if (registersStateBefore[sourceRegister] * registersStateBefore[secondSourceRegister]
                 == registersStateAfter[resultRegister]) {
-            return true;
+            matches++;
         }
 
-        return false;
+        return matches;
     }
 
-    public boolean isAnd(int[] registersStateBefore,
+    public int isAnd(int[] registersStateBefore,
                                  int[] registersStateAfter,
                                  int sourceRegister,
                                  int secondSourceRegister,
                                  int resultRegister) {
+        int matches=0;
 
         //bori
         int result = registersStateBefore[sourceRegister] & secondSourceRegister;
         if (result == registersStateAfter[resultRegister]) {
-            return true;
+            matches++;
         }
         // borr
         result = registersStateBefore[sourceRegister] & registersStateBefore[secondSourceRegister];
         if (result == registersStateAfter[resultRegister]) {
-            return true;
+            matches++;
         }
 
 
-        return false;
+        return matches;
     }
 
-    public boolean isOr(int[] registersStateBefore,
+    public int isOr(int[] registersStateBefore,
                                 int[] registersStateAfter,
                                 int sourceRegister,
                                 int secondSourceRegister,
                                 int resultRegister) {
 
+        int matches=0;
+
         //bani
         int result = registersStateBefore[sourceRegister] | secondSourceRegister;
         if (result == registersStateAfter[resultRegister]) {
-            return true;
+            matches++;
         }
         // banr
         result = registersStateBefore[sourceRegister] | registersStateBefore[secondSourceRegister];
         if (result == registersStateAfter[resultRegister]) {
-            return true;
+            matches++;
         }
 
 
-        return false;
+        return matches;
     }
 
-    public boolean isAssignment(int[] registersStateBefore,
+    public int isAssignment(int[] registersStateBefore,
                                         int[] registersStateAfter,
                                         int sourceRegister,
                                         int resultRegister) {
+        int matches=0;
 
         //seti
         if (registersStateAfter[resultRegister] == sourceRegister) {
-            return true;
+            matches++;
         }
         //setr
         if (registersStateBefore[sourceRegister] == registersStateAfter[resultRegister]) {
-            return true;
+            matches++;
         }
-        return false;
+        return matches;
     }
 
-    public boolean isGreaterThan(int[] registersStateBefore,
+    public int isGreaterThan(int[] registersStateBefore,
                                          int[] registersStateAfter,
                                          int sourceRegister,
                                          int secondSourceRegister,
                                          int resultRegister) {
+        int matches=0;
+
         //gtir
         if ((registersStateAfter[resultRegister] == 1 && sourceRegister > registersStateBefore[secondSourceRegister]) ||
                 (registersStateAfter[resultRegister] == 0 && sourceRegister <= registersStateBefore[secondSourceRegister])){
-            return true;
+            matches++;
         }
 
         //gtri
         if ((registersStateAfter[resultRegister] == 1 && registersStateBefore[sourceRegister] > secondSourceRegister) ||
                 (registersStateAfter[resultRegister] == 0 && registersStateBefore[sourceRegister] <= secondSourceRegister)){
-            return true;
+            matches++;
         }
 
         //gtrr
         if ((registersStateAfter[resultRegister] == 1 && registersStateBefore[sourceRegister] > registersStateBefore[secondSourceRegister]) ||
                 (registersStateAfter[resultRegister] == 0 && registersStateBefore[sourceRegister] <= registersStateBefore[secondSourceRegister])){
-            return true;
+            matches++;
         }
 
 
-        return false;
+        return matches;
     }
 
-    public boolean isEqual(int[] registersStateBefore,
+    public int isEqual(int[] registersStateBefore,
                                  int[] registersStateAfter,
                                  int sourceRegister,
                                  int secondSourceRegister,
                                  int resultRegister) {
 
+        int matches=0;
+
         //eqir
         if ((registersStateAfter[resultRegister] == 1 && sourceRegister == registersStateBefore[secondSourceRegister]) ||
                 (registersStateAfter[resultRegister] == 0 && sourceRegister != registersStateBefore[secondSourceRegister])){
-            return true;
+            matches++;
         }
 
         //eqri
         if ((registersStateAfter[resultRegister] == 1 && registersStateBefore[sourceRegister] == secondSourceRegister) ||
                 (registersStateAfter[resultRegister] == 0 && registersStateBefore[sourceRegister] != secondSourceRegister)){
-            return true;
+            matches++;
         }
 
         //eqrr
         if ((registersStateAfter[resultRegister] == 1 && registersStateBefore[sourceRegister] == registersStateBefore[secondSourceRegister]) ||
                 (registersStateAfter[resultRegister] == 0 && registersStateBefore[sourceRegister] != registersStateBefore[secondSourceRegister])){
-            return true;
+            matches++;
         }
 
 
-        return false;
+        return matches;
     }
 
 

@@ -92,27 +92,20 @@ public class Main {
                int secondSourceRegister = registerOperation.getSecondSourceRegister();
                int resultRegister = registerOperation.getResultRegister();
 
-                if (operationUtils.isAddition(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
-                    result++;
-                }
-                if (operationUtils.isMultiplication(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
-                    result++;
-                }
-                if (operationUtils.isAnd(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
-                    result++;
-                }
-                if (operationUtils.isOr(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
-                    result++;
-                }
-                if (operationUtils.isAssignment(registersStateBefore, registersStateAfter, sourceRegister, resultRegister)) {
-                    result++;
-                }
-                if (operationUtils.isGreaterThan(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
-                    result++;
-                }
-                if (operationUtils.isEqual(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
-                    result++;
-                }
+                result += operationUtils.isAddition(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister);
+
+                result += operationUtils.isMultiplication(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister);
+
+                result += operationUtils.isAnd(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister);
+
+               result += operationUtils.isOr(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister);
+
+               result += operationUtils.isAssignment(registersStateBefore, registersStateAfter, sourceRegister, resultRegister);
+
+               result += operationUtils.isGreaterThan(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister);
+
+               result += operationUtils.isEqual(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister);
+
 
                 return (result >= 3);
            }
