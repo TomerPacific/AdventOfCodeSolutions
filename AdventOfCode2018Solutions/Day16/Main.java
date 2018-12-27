@@ -212,4 +212,31 @@ public class Main {
             }
             return false;
         }
+
+        private static boolean isGreaterThan(int[] registersStateBefore,
+                                             int[] registersStateAfter,
+                                             int sourceRegister,
+                                             int secondSourceRegister,
+                                             int resultRegister) {
+            //gtir
+            if ((registersStateAfter[resultRegister] == 1 && sourceRegister > registersStateBefore[secondSourceRegister]) ||
+                (registersStateAfter[resultRegister] == 0 && sourceRegister <= registersStateBefore[secondSourceRegister])){
+                return true;
+            }
+
+            //gtri
+            if ((registersStateAfter[resultRegister] == 1 && registersStateBefore[sourceRegister] > secondSourceRegister) ||
+                (registersStateAfter[resultRegister] == 0 && registersStateBefore[sourceRegister] <= secondSourceRegister)){
+                return true;
+            }
+
+            //gtrr
+            if ((registersStateAfter[resultRegister] == 1 && registersStateBefore[sourceRegister] > registersStateBefore[secondSourceRegister]) ||
+                (registersStateAfter[resultRegister] == 0 && registersStateBefore[sourceRegister] <= registersStateBefore[secondSourceRegister])){
+                return true;
+            }
+
+
+            return false;
+        }
     }
