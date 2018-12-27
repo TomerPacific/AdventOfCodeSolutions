@@ -59,6 +59,14 @@ public class Main {
                 findOperations(operations);
            }
 
+            private static int[] convertElementsToInt(String[] arr) {
+                int[] intArr = new int[arr.length];
+                for(int i = 0; i < arr.length; i++) {
+                    intArr[i] = Integer.parseInt(arr[i]);
+                }
+                return intArr;
+            }
+
 
            private static void findOperations(ArrayList<Operation> operations) {
 
@@ -73,39 +81,45 @@ public class Main {
 
            private static boolean behavesLikeThree(Operation op) {
                 int result = 0;
-                if (isAddition(op)) {
+
+               int[] registersStateBefore = op.getBeforeState();
+               RegisterOperation registerOperation = op.getRegisterOperation();
+               int[] registersStateAfter = op.getAfterState();
+
+               int sourceRegister = registerOperation.getSourceRegister();
+               int secondSourceRegister = registerOperation.getSecondSourceRegister();
+               int resultRegister = registerOperation.getResultRegister();
+
+                if (isAddition(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
                     result++;
                 }
-                if (isMultiplication(op)) {
+                if (isMultiplication(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
                     result++;
                 }
-                if (isAnd(op)) {
+                if (isAnd(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
                     result++;
                 }
-                if (isOr(op)) {
+                if (isOr(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
                     result++;
                 }
-                if (isAssignment(op)) {
+                if (isAssignment(registersStateBefore, registersStateAfter, sourceRegister, resultRegister)) {
                     result++;
                 }
-//                if (isGreaterThan(op)) {
+//                if (isGreaterThan(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
 //                    result++;
 //                }
-//                if (isEqual(op)) {
+//                if (isEqual(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
 //                    result++;
 //                }
 
                 return (result >= 3);
            }
 
-           private static boolean isAddition(Operation op) {
-                int[] registersStateBefore = op.getBeforeState();
-                RegisterOperation registerOperation = op.getRegisterOperation();
-                int[] registersStateAfter = op.getAfterState();
-
-                int sourceRegister = registerOperation.getSourceRegister();
-                int secondSourceRegister = registerOperation.getSecondSourceRegister();
-                int resultRegister = registerOperation.getResultRegister();
+           private static boolean isAddition(int[] registersStateBefore,
+                                              int[] registersStateAfter,
+                                              int sourceRegister,
+                                              int secondSourceRegister,
+                                              int resultRegister) {
 
                 //addi
                if (registersStateBefore[sourceRegister] + secondSourceRegister
@@ -121,14 +135,11 @@ public class Main {
                return false;
            }
 
-        private static boolean isMultiplication(Operation op) {
-            int[] registersStateBefore = op.getBeforeState();
-            RegisterOperation registerOperation = op.getRegisterOperation();
-            int[] registersStateAfter = op.getAfterState();
-
-            int sourceRegister = registerOperation.getSourceRegister();
-            int secondSourceRegister = registerOperation.getSecondSourceRegister();
-            int resultRegister = registerOperation.getResultRegister();
+        private static boolean isMultiplication(int[] registersStateBefore,
+                                                int[] registersStateAfter,
+                                                int sourceRegister,
+                                                int secondSourceRegister,
+                                                int resultRegister) {
 
             //muli
             if (registersStateBefore[sourceRegister] * secondSourceRegister
@@ -144,14 +155,11 @@ public class Main {
             return false;
         }
 
-        private static boolean isAnd(Operation op) {
-            int[] registersStateBefore = op.getBeforeState();
-            RegisterOperation registerOperation = op.getRegisterOperation();
-            int[] registersStateAfter = op.getAfterState();
-
-            int sourceRegister = registerOperation.getSourceRegister();
-            int secondSourceRegister = registerOperation.getSecondSourceRegister();
-            int resultRegister = registerOperation.getResultRegister();
+        private static boolean isAnd(int[] registersStateBefore,
+                                     int[] registersStateAfter,
+                                     int sourceRegister,
+                                     int secondSourceRegister,
+                                     int resultRegister) {
 
             //bori
             int result = registersStateBefore[sourceRegister] & secondSourceRegister;
@@ -168,14 +176,11 @@ public class Main {
             return false;
         }
 
-        private static boolean isOr(Operation op) {
-            int[] registersStateBefore = op.getBeforeState();
-            RegisterOperation registerOperation = op.getRegisterOperation();
-            int[] registersStateAfter = op.getAfterState();
-
-            int sourceRegister = registerOperation.getSourceRegister();
-            int secondSourceRegister = registerOperation.getSecondSourceRegister();
-            int resultRegister = registerOperation.getResultRegister();
+        private static boolean isOr(int[] registersStateBefore,
+                                    int[] registersStateAfter,
+                                    int sourceRegister,
+                                    int secondSourceRegister,
+                                    int resultRegister) {
 
             //bani
             int result = registersStateBefore[sourceRegister] | secondSourceRegister;
@@ -192,14 +197,10 @@ public class Main {
             return false;
         }
 
-        private static boolean isAssignment(Operation op) {
-            int[] registersStateBefore = op.getBeforeState();
-            RegisterOperation registerOperation = op.getRegisterOperation();
-            int[] registersStateAfter = op.getAfterState();
-
-            int sourceRegister = registerOperation.getSourceRegister();
-            int secondSourceRegister = registerOperation.getSecondSourceRegister();
-            int resultRegister = registerOperation.getResultRegister();
+        private static boolean isAssignment(int[] registersStateBefore,
+                                            int[] registersStateAfter,
+                                            int sourceRegister,
+                                            int resultRegister) {
 
             //seti
             if (registersStateAfter[resultRegister] == sourceRegister) {
@@ -211,12 +212,4 @@ public class Main {
             }
             return false;
         }
-
-       private static int[] convertElementsToInt(String[] arr) {
-            int[] intArr = new int[arr.length];
-            for(int i = 0; i < arr.length; i++) {
-                intArr[i] = Integer.parseInt(arr[i]);
-            }
-            return intArr;
-       }
     }
