@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Main {
 
     final static String FILENAME = "src/input.txt";
+    private static OperationUtils operationUtils;
 
     public static void main(String[] args) {
 
@@ -17,6 +18,7 @@ public class Main {
         boolean isBeforeLine = false;
         boolean isAfterLine = false;
         RegisterOperation registerOperation = null;
+        operationUtils = new OperationUtils();
 
         ArrayList<Operation> operations = new ArrayList<>();
 
@@ -90,153 +92,28 @@ public class Main {
                int secondSourceRegister = registerOperation.getSecondSourceRegister();
                int resultRegister = registerOperation.getResultRegister();
 
-                if (isAddition(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
+                if (operationUtils.isAddition(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
                     result++;
                 }
-                if (isMultiplication(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
+                if (operationUtils.isMultiplication(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
                     result++;
                 }
-                if (isAnd(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
+                if (operationUtils.isAnd(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
                     result++;
                 }
-                if (isOr(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
+                if (operationUtils.isOr(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
                     result++;
                 }
-                if (isAssignment(registersStateBefore, registersStateAfter, sourceRegister, resultRegister)) {
+                if (operationUtils.isAssignment(registersStateBefore, registersStateAfter, sourceRegister, resultRegister)) {
                     result++;
                 }
-//                if (isGreaterThan(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
-//                    result++;
-//                }
+                if (operationUtils.isGreaterThan(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
+                    result++;
+                }
 //                if (isEqual(registersStateBefore, registersStateAfter, sourceRegister, secondSourceRegister, resultRegister)) {
 //                    result++;
 //                }
 
                 return (result >= 3);
            }
-
-           private static boolean isAddition(int[] registersStateBefore,
-                                              int[] registersStateAfter,
-                                              int sourceRegister,
-                                              int secondSourceRegister,
-                                              int resultRegister) {
-
-                //addi
-               if (registersStateBefore[sourceRegister] + secondSourceRegister
-                       == registersStateAfter[resultRegister]) {
-                    return true;
-               }
-               // addr
-               else if (registersStateBefore[sourceRegister] + registersStateBefore[secondSourceRegister]
-                       == registersStateAfter[resultRegister]) {
-                    return true;
-               }
-
-               return false;
-           }
-
-        private static boolean isMultiplication(int[] registersStateBefore,
-                                                int[] registersStateAfter,
-                                                int sourceRegister,
-                                                int secondSourceRegister,
-                                                int resultRegister) {
-
-            //muli
-            if (registersStateBefore[sourceRegister] * secondSourceRegister
-                    == registersStateAfter[resultRegister]) {
-                return true;
-            }
-            // mulr
-            else if (registersStateBefore[sourceRegister] * registersStateBefore[secondSourceRegister]
-                    == registersStateAfter[resultRegister]) {
-                return true;
-            }
-
-            return false;
-        }
-
-        private static boolean isAnd(int[] registersStateBefore,
-                                     int[] registersStateAfter,
-                                     int sourceRegister,
-                                     int secondSourceRegister,
-                                     int resultRegister) {
-
-            //bori
-            int result = registersStateBefore[sourceRegister] & secondSourceRegister;
-            if (result == registersStateAfter[resultRegister]) {
-                return true;
-            }
-            // borr
-            result = registersStateBefore[sourceRegister] & registersStateBefore[secondSourceRegister];
-            if (result == registersStateAfter[resultRegister]) {
-                return true;
-            }
-
-
-            return false;
-        }
-
-        private static boolean isOr(int[] registersStateBefore,
-                                    int[] registersStateAfter,
-                                    int sourceRegister,
-                                    int secondSourceRegister,
-                                    int resultRegister) {
-
-            //bani
-            int result = registersStateBefore[sourceRegister] | secondSourceRegister;
-            if (result == registersStateAfter[resultRegister]) {
-                return true;
-            }
-            // banr
-            result = registersStateBefore[sourceRegister] | registersStateBefore[secondSourceRegister];
-            if (result == registersStateAfter[resultRegister]) {
-                return true;
-            }
-
-
-            return false;
-        }
-
-        private static boolean isAssignment(int[] registersStateBefore,
-                                            int[] registersStateAfter,
-                                            int sourceRegister,
-                                            int resultRegister) {
-
-            //seti
-            if (registersStateAfter[resultRegister] == sourceRegister) {
-                return true;
-            }
-            //setr
-            if (registersStateBefore[sourceRegister] == registersStateAfter[resultRegister]) {
-                return true;
-            }
-            return false;
-        }
-
-        private static boolean isGreaterThan(int[] registersStateBefore,
-                                             int[] registersStateAfter,
-                                             int sourceRegister,
-                                             int secondSourceRegister,
-                                             int resultRegister) {
-            //gtir
-            if ((registersStateAfter[resultRegister] == 1 && sourceRegister > registersStateBefore[secondSourceRegister]) ||
-                (registersStateAfter[resultRegister] == 0 && sourceRegister <= registersStateBefore[secondSourceRegister])){
-                return true;
-            }
-
-            //gtri
-            if ((registersStateAfter[resultRegister] == 1 && registersStateBefore[sourceRegister] > secondSourceRegister) ||
-                (registersStateAfter[resultRegister] == 0 && registersStateBefore[sourceRegister] <= secondSourceRegister)){
-                return true;
-            }
-
-            //gtrr
-            if ((registersStateAfter[resultRegister] == 1 && registersStateBefore[sourceRegister] > registersStateBefore[secondSourceRegister]) ||
-                (registersStateAfter[resultRegister] == 0 && registersStateBefore[sourceRegister] <= registersStateBefore[secondSourceRegister])){
-                return true;
-            }
-
-
-            return false;
-        }
     }
