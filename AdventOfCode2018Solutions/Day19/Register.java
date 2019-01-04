@@ -7,4 +7,8 @@ public class Register {
         id = _id;
         value = _value;
     }
+
+    public void setValue(int newValue) {
+        value = newValue;
+    }
 }

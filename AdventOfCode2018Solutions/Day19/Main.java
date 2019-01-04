@@ -11,15 +11,17 @@ public class Main {
 
 
         String line;
-        Register mainRegister;
+        Register mainRegister = null;
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
             while ((line = reader.readLine()) != null) {
                     if (line.contains("#")) {
-                        mainRegister = new Register(Integer.parseInt(line.substring(line.indexOf(""))), 0);
+                        mainRegister = new Register(Integer.parseInt(line.substring(line.indexOf(" ")).trim()), 0);
                     } else {
-                        
+                        String[] words = line.split(" ");
+                        int updatedValue = executeCommand(words[0], words[1], words[2], words[3], mainRegister);
+                        mainRegister.setValue(updatedValue);
                     }
 
             }
@@ -29,6 +31,12 @@ public class Main {
             e.printStackTrace();
         }
 
+    } // end main
+
+    private static int executeCommand(String command, String firstArg, String secondArg, String thirdArg, Register register) {
+
+
+        return -1;
     }
 
 }
