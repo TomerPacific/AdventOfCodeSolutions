@@ -20,13 +20,39 @@ public class Main {
                 input.add(Integer.valueOf(split[index]));
               }
             }
-            System.out.println(input.toString());
+            calculateOpCodes(input);
             myReader.close();
           } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
           }
+    }
 
+    private static void calculateOpCodes(ArrayList<Integer> input) {
+      Integer firstNumber, secondNumber, placement;
+      boolean isOp99 = false;
+      for(int i = 0; i < input.size() && !isOp99; i+=4) {
+        Integer operation = input.get(i);
+        switch(operation) {
+          case 1:
+            firstNumber = input.get(i+1);
+            secondNumber = input.get(i+2);
+            placement = input.get(i+3);
+            Integer sum = input.get(firstNumber) + input.get(secondNumber);
+            input.set(input.get(placement), sum);
+            break;
+          case 2:
+            firstNumber = input.get(i+1);
+            secondNumber = input.get(i+2);
+            placement = input.get(i+3);
+            Integer multiplication = input.get(firstNumber) * input.get(secondNumber);
+            input.set(input.get(placement), multiplication);
+            break;
+          case 99:
+            isOp99 = true;
+            break;
+        }
+      }
     }
 
 }
