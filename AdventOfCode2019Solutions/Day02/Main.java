@@ -9,6 +9,7 @@ public class Main {
     
     public static void main(String[] args) {
         ArrayList<Integer> input = new ArrayList<Integer>();
+        ArrayList<Integer> originalInput = null;
 
         try {
             File myObj = new File(FILENAME);
@@ -20,12 +21,26 @@ public class Main {
                 input.add(Integer.valueOf(split[index]));
               }
             }
-            calculateOpCodes(input);
+            originalInput = new ArrayList<>(input);
+            findSolution(input, originalInput);
             myReader.close();
           } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
           }
+    }
+
+    private static void findSolution(ArrayList<Integer> data, ArrayList<Integer> originalData) {
+
+      for (int noun = 0; noun <= 99; noun++) {
+        for (int verb = 0; verb <= 99; verb++) {
+          data.set(1, noun);
+          data.set(2, verb);
+          System.out.println("Finding solution for noun " + noun + " and verb " + verb);
+          calculateOpCodes(data);
+          data = new ArrayList<Integer>(originalData);
+        }
+      }
     }
 
     private static void calculateOpCodes(ArrayList<Integer> input) {
@@ -52,6 +67,10 @@ public class Main {
             isOp99 = true;
             break;
         }
+      }
+      int solution = input.get(1);
+      if (solution == 19690720) {
+        System.out.println("Found solution!!!");
       }
     }
 
