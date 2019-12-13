@@ -8,7 +8,7 @@ public class Main {
     
   final static String FILENAME = "puzzle.txt";
 
-    public static HashMap<String,ArrayList<String>> orbits = new HashMap<>();
+    public static ArrayList<Planet> planets = new ArrayList()<>();
 
     public static void main(String[] args) {
       try {
@@ -17,12 +17,9 @@ public class Main {
         while (myReader.hasNextLine()) {
           String data = myReader.nextLine();
           String[] planets = data.split("\\)");
-          if (orbits.containsKey(planets[1])) {
-            orbits.get(planets[1]).add(planets[0]);
-          } else {
-            orbits.put(planets[1], new ArrayList<>());
-            orbits.get(planets[1]).add(planets[0]);
-          }
+          Planet orbiting = new Planet(planets[1]);
+          Planet orbitted = new Planet(planets[0]);
+          orbitted.addOrbitingPlanet(orbiting);
         }
        
         myReader.close();
