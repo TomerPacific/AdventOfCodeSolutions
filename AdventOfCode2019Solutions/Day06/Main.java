@@ -8,7 +8,7 @@ public class Main {
     
   final static String FILENAME = "puzzle.txt";
 
-    public static ArrayList<Planet> planets = new ArrayList()<>();
+    public static ArrayList<Planet> orbitingPlanets = new ArrayList();
 
     public static void main(String[] args) {
       try {
@@ -20,6 +20,8 @@ public class Main {
           Planet orbiting = new Planet(planets[1]);
           Planet orbitted = new Planet(planets[0]);
           orbitted.addOrbitingPlanet(orbiting);
+          orbitingPlanets.add(orbiting);
+          orbitingPlanets.add(orbitted);
         }
        
         myReader.close();
