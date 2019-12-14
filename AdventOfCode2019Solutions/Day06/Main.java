@@ -23,6 +23,8 @@ public class Main {
           orbitingPlanets.add(orbiting);
           orbitingPlanets.add(orbitted);
         }
+
+        findIndirectOrbits(orbitingPlanets);
        
         myReader.close();
       } catch (FileNotFoundException e) {
@@ -30,6 +32,19 @@ public class Main {
         e.printStackTrace();
       }
        
+    }
+
+    public static void findIndirectOrbits(ArrayList<Planet> planets) {
+
+      for (int i = 0; i < planets.size(); i++) {
+        Planet planetOrbit = planets.get(i);
+        for (int j = i+1; j < planets.size(); j++) {
+          Planet planetOrbitted = planets.get(j);
+          if (planetOrbitted.isBeingOrbitted(planetOrbit)) {
+            
+          }
+        }
+      }
     }
 
    
