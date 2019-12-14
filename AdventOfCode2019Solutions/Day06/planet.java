@@ -13,7 +13,26 @@ public class Planet {
         orbits.add(planet);
     }
 
-    public Integer getOrbitingPlanets() {
+    public String getPlanetName() {
+        return planetName;
+    }
+
+    public Integer getOrbitingPlanetsAmount() {
         return orbits.size();
+    }
+
+    public ArrayList<Planet> getOrbitingPlanets() {
+        return orbits;
+    }
+
+    public boolean isBeingOrbitted(Planet planet) {
+        for (int i = 0; i < orbits.size(); i++) {
+            Planet orbitingPlanet = orbits.get(i);
+            if (orbitingPlanet.getPlanetName() == planet.getPlanetName()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
